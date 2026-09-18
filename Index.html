@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plegable interactivo - Liderazgo policial</title>
+
+<style>
+:root {
+  --azul: #063b68;
+  --azul-oscuro: #022542;
+  --azul-claro: #eaf4fa;
+  --dorado: #d9aa32;
+  --verde: #168447;
+  --rojo: #ad291f;
+  --blanco: #ffffff;
+  --gris: #f3f6f8;
+  --texto: #203040;
+  --sombra: 0 12px 25px rgba(0, 31, 63, .18);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--texto);
+  background:
+    linear-gradient(rgba(229, 239, 246, .92), rgba(229, 239, 246, .92)),
+    url("https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e20ffe3a1a1cf0c643f73d874e8c7e2a8c6fd1cf76744609ec4ed084f520c7bce70eb5330d337a5dbed08a87c3069317a59a67a38593acaec3da32c0acfd4a007");
+  background-size: 430px;
+  background-position: center;
+  background-repeat: no-repeat;
+  line-height: 1.45;
+}
+
+header {
+  background: linear-gradient(135deg, var(--azul-oscuro), var(--azul));
+  color: var(--blanco);
+  text-align: center;
+  padding: 28px 18px;
+  border-bottom: 5px solid var(--dorado);
+}
+
+header h1 {
+  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  margin-bottom: 8px;
+}
+
+header p {
+  color: #dceaf5;
+  font-size: .98rem;
+}
+
+.informacion {
+  width: min(1100px, 94%);
+  margin: 18px auto;
+  background: rgba(255,255,255,.95);
+  border-left: 6px solid var(--dorado);
+  border-radius: 12px;
+  padding: 14px 18px;
+  box-shadow: var(--sombra);
+  font-size: .88rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px 18px;
+}
+
+.informacion strong {
+  color: var(--azul);
+}
+
+main {
+  width: min(1150px, 94%);
+  margin: 24px auto 45px;
+}
+
+.instruccion {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--azul);
+}
+
+.instruccion p {
+  color: #566b7a;
+  margin-top: 5px;
+}
+
+.plegable {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.cara {
+  position: relative;
+  min-height: 430px;
+  background: rgba(255,255,255,.97);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  border-top: 7px solid var(--azul);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.cara:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 19px 35px rgba(0, 31, 63, .25);
+}
+
+.cara img {
+  width: 100%;
+  height: 155px;
+  object-fit: cover;
+  display: block;
+}
+
+.contenido {
+  padding: 19px;
+}
+
+.cara h2 {
+  color: var(--azul);
+  font-size: 1.28rem;
+  margin-bottom: 9px;
+}
+
+.cara h3 {
+  color: var(--azul);
+  font-size: 1rem;
+  margin: 11px 0 5px;
+}
+
+.cara p {
+  font-size: .93rem;
+  margin-bottom: 9px;
+}
+
+.cara ul {
+  padding-left: 19px;
+  font-size: .9rem;
+}
+
+.cara li {
+  margin-bottom: 5px;
+}
+
+.etiqueta {
+  display: inline-block;
+  background: var(--azul-claro);
+  color: var(--azul);
+  border-radius: 20px;
+  padding: 4px 8px;
+  font-size: .73rem;
+  font-weight: bold;
+  margin: 4px 2px;
+}
+
+.boton {
+  border: none;
+  background: var(--azul);
+  color: white;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.boton:hover {
+  background: var(--azul-oscuro);
+}
+
+.oculto {
+  display: none;
+  margin-top: 9px;
+  padding: 10px;
+  background: var(--gris);
+  border-radius: 8px;
+  font-size: .87rem;
+}
+
+.portada {
+  background:
+    linear-gradient(rgba(2,37,66,.82), rgba(2,37,66,.86)),
+    url("https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e15bf1c2bedd33d50dc9be056108a33b35447d9cbcb5d5ecfb81884bd3036c421025e383927d71e06f8c50ab00b710445fc4d04a620cd4a432341516c434035d2");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  border-top-color: var(--dorado);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.portada .contenido {
+  padding: 25px;
+}
+
+.portada h2,
+.portada p {
+  color: white;
+}
+
+.portada h2 {
+  font-size: 1.8rem;
+}
+
+.portada .escudo {
+  font-size: 50px;
+  margin-bottom: 12px;
+}
+
+.portada .datos-portada {
+  margin-top: 17px;
+  font-size: .85rem;
+  color: #e5f0f6;
+}
+
+.cara-final {
+  background:
+    linear-gradient(rgba(6,59,104,.88), rgba(6,59,104,.92)),
+    url("https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/0c872a0c-1354-5b21-ad10-d388899a2c29/0ff524e2-b7e8-5b99-a4d1-0157a4e1d208.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  border-top-color: var(--dorado);
+}
+
+.cara-final h2,
+.cara-final h3,
+.cara-final p {
+  color: white;
+}
+
+.reflexion {
+  background: rgba(255,255,255,.13);
+  border-left: 4px solid var(--dorado);
+  border-radius: 8px;
+  padding: 13px;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+.integracion {
+  grid-column: 1 / -1;
+  min-height: 310px;
+  background: linear-gradient(135deg, #073a63, #087b82);
+  color: white;
+  border-top-color: var(--dorado);
+}
+
+.integracion h2,
+.integracion p {
+  color: white;
+}
+
+.ruta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.paso {
+  padding: 13px 8px;
+  text-align: center;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 10px;
+  font-size: .85rem;
+}
+
+.paso span {
+  display: block;
+  font-size: 1.65rem;
+  margin-bottom: 5px;
+}
+
+footer {
+  background: var(--azul-oscuro);
+  color: #dceaf5;
+  text-align: center;
+  padding: 20px;
+  font-size: .85rem;
+}
+
+@media (max-width: 850px) {
+  .plegable {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .integracion {
+    grid-column: 1 / -1;
+  }
+
+  .informacion {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 570px) {
+  .plegable,
+  .informacion {
+    grid-template-columns: 1fr;
+  }
+
+  .integracion {
+    grid-column: auto;
+  }
+
+  .ruta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  .boton {
+    display: none;
+  }
+
+  .cara {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Habilidades de poder para el liderazgo organizacional</h1>
+  <p>Plegable interactivo aplicado a la Policía Nacional de Colombia</p>
+</header>
+
+<section class="informacion">
+  <div><strong>Nombre:</strong> Jhon Edisson Sanabria Buitrago</div>
+  <div><strong>Grado:</strong> Intendente</div>
+  <div><strong>Compañía:</strong> Alberto Lleras Camargo, primera sección</div>
+  <div><strong>Institución:</strong> Escuela de Suboficiales y Mandos de Nivel Ejecutivo Gonzalo Jiménez de Quesada</div>
+  <div><strong>Materia:</strong> Habilidades de poder para el liderazgo organizacional</div>
+  <div><strong>Docente:</strong> Nancy Yaneth Niño Silva</div>
+</section>
+
+<main>
+
+
+  <section class="plegable">
+
+    <!-- CARA 1 -->
+    <article class="cara portada">
+      <div class="contenido">
+        <div class="escudo"></div>
+        <h2>Liderazgo policial ético</h2>
+        <p  style="text-align: justify;">
+          Las habilidades de poder para el liderazgo organizacional son el conjunto de capacidades que permiten a un líder influir, orientar y motivar a su equipo de manera ética, responsable y efectiva. En la Policía Nacional de Colombia, estas habilidades son fundamentales para ejercer la autoridad con respeto, aplicar correctamente las normas, tomar decisiones en situaciones de presión y fortalecer el trabajo en equipo.
+
+            El liderazgo policial no debe basarse únicamente en el cargo o el rango, sino también en el ejemplo, la preparación profesional, el autocontrol emocional, la comunicación clara y la empatía. Un líder que conoce y utiliza adecuadamente el poder legítimo y el poder experto puede orientar a sus compañeros, mejorar el cumplimiento de la misión institucional y generar confianza en la ciudadanía..
+        </p>
+
+      </div>
+    </article>
+
+    <!-- CARA 2 -->
+    <article class="cara">
+      <img src="https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e15bf1c2bedd33d50dc9be056108a33b35447d9cbcb5d5ecfb81884bd3036c421025e383927d71e06f8c50ab00b710445fc4d04a620cd4a432341516c434035d2"
+         alt="Policías de Colombia en servicio">
+
+      <div class="contenido">
+        <h2>1. Poder y autoridad</h2>
+        <p>
+          El poder es la capacidad de influir. La autoridad es la legitimidad
+          para orientar y decidir dentro de la ley.
+        </p>
+
+        <h3>Ejercer no es imponer</h3>
+        <ul>
+          >Ejercer: orientar con respeto y ejemplo.</li>
+          >Imponer: obligar mediante miedo o abuso.</li>
+          >El liderazgo busca obediencia consciente.</li>
+        </ul>
+
+        <span class="etiqueta">Respeto</span>
+        <span class="etiqueta">Legalidad</span>
+        <span class="etiqueta">Ejemplo</span>
+
+        <button class="boton" onclick="mostrar('poder')">Ver situación</button>
+        <div class="oculto" id="poder">
+          Un líder explica una instrucción, escucha dudas y verifica que se
+          cumpla correctamente, sin humillar ni amenazar.
+        </div>
+      </div>
+    </article>
+
+    <!-- CARA 3 -->
+    <article class="cara">
+      <img src="https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/0c872a0c-1354-5b21-ad10-d388899a2c29/0ff524e2-b7e8-5b99-a4d1-0157a4e1d208.jpg"
+         alt="Trabajo humano y liderazgo policial">
+
+      <div class="contenido">
+        <h2>2. Poder legítimo y experto</h2>
+        <p>
+          El poder legítimo proviene del cargo y las normas. El poder experto
+          nace del conocimiento, la experiencia y la preparación.
+        </p>
+
+        <ul>
+          >Aplicar la autoridad de forma ética.</li>
+          >Tomar decisiones basadas en procedimientos.</li>
+          >Compartir conocimientos con el equipo.</li>
+        </ul>
+
+        <h2>3. Autocontrol emocional</h2>
+        <p>
+          En situaciones de alto estrés, respirar, observar y pensar antes de
+          actuar ayuda a reducir errores y conflictos.
+        </p>
+
+        <button class="boton" onclick="mostrar('emociones')">Técnica rápida</button>
+        <div class="oculto" id="emociones">
+          <strong>Pausa 3-3-3:</strong> respira tres segundos, identifica tres
+          hechos de la situación y formula tres opciones antes de responder.
+        </div>
+      </div>
+    </article>
+
+    <!-- CARA 4 -->
+    <article class="cara">
+      <img src="https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e18aa696018f738843c528d6e5f529a17d3462b0608fafdae116a9f88f4491419ae6aa9704e6dcc083735e9486af1588204cf4c55b4e5823db945692a0c3695d8"
+         alt="Policías colombianos prestando servicio">
+
+      <div class="contenido">
+        <h2>4. Empatía y comunicación</h2>
+        <p>
+          Escuchar y comprender a la ciudadanía fortalece la confianza y ayuda
+          a resolver conflictos de manera pacífica.
+        </p>
+
+        <ul>
+          >Escuchar sin interrumpir.</li>
+          >Utilizar lenguaje claro y respetuoso.</li>
+          >Explicar las razones del procedimiento.</li>
+          >Mantener firmeza sin agresividad.</li>
+        </ul>
+
+        <h2>5. Inteligencias personales</h2>
+        <p>
+          La inteligencia intrapersonal permite autorregularse. La interpersonal
+          facilita la cooperación y el trabajo en equipo.
+        </p>
+
+        <button class="boton" onclick="mostrar('empatía')">Mensaje clave</button>
+        <div class="oculto" id="empatía">
+          La empatía no significa renunciar a la autoridad: significa ejercerla
+          respetando la dignidad humana.
+        </div>
+      </div>
+    </article>
+
+    <!-- CARA 5 -->
+    <article class="cara">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQqxEny8ryBZVMRpoPokJJBe0SFKdjVg3yCIB-RGZVQX5TBF3s9g_cHMY&s=10"
+         alt="Policías de Colombia trabajando en equipo">
+
+      <div class="contenido">
+        <h2>6. Inteligencia lingüística y corporal</h2>
+        <p>
+          Las palabras, el tono, la postura y los gestos influyen en la eficacia
+          de las instrucciones y los procedimientos.
+        </p>
+
+        <ul>
+          >Dar órdenes breves y precisas.</li>
+          >Usar un tono firme, no amenazante.</li>
+          >Mantener una postura segura y respetuosa.</li>
+          >Observar las señales corporales.</li>
+        </ul>
+
+        <h2>7. Integración ética</h2>
+        <p>
+          Un líder integra autoridad, conocimiento, autocontrol, empatía y
+          comunicación para servir mejor.
+        </p>
+
+        <span class="etiqueta">Legalidad</span>
+        <span class="etiqueta">Disciplina</span>
+        <span class="etiqueta">Servicio</span>
+
+        <button class="boton" onclick="mostrar('integrar')">Recordar</button>
+        <div class="oculto" id="integrar">
+          Antes de actuar: ¿es legal?, ¿es necesario?, ¿es proporcional? y
+          ¿protege la dignidad de las personas?
+        </div>
+      </div>
+    </article>
+
+    <!-- CARA 6 -->
+    <article class="cara cara-final">
+      <div class="contenido">
+        <h2>8. Mal uso del poder</h2>
+        <p>
+          El abuso de autoridad y el descontrol emocional pueden producir:
+        </p>
+
+        <ul>
+          >Pérdida de confianza ciudadana.</li>
+          >Conflictos dentro del equipo.</li>
+          >Daño a la imagen institucional.</li>
+          >Investigaciones disciplinarias o legales.</li>
+          >Escalamiento innecesario de los conflictos.</li>
+        </ul>
+
+        <h2>9. Reflexión final</h2>
+        <div class="reflexion">
+          “El verdadero poder del líder policial no consiste en inspirar miedo,
+          sino en generar confianza, actuar con justicia y servir con ejemplo”.
+        </div>
+
+
+
+    <!-- BANDA DE INTEGRACIÓN -->
+    <article class="cara integracion">
+      <div class="contenido">
+        <h2>Ruta del liderazgo policial</h2>
+        <p>
+          La autoridad se convierte en liderazgo cuando se combina con ética,
+          autocontrol, comunicación y vocación de servicio.
+        </p>
+
+        <div class="ruta">
+          <div class="paso">
+            <span>⚖️</span>
+            <strong>Legalidad</strong>
+            <br>Actuar conforme a la norma.
+          </div>
+
+          <div class="paso">
+            <span>🧠</span>
+            <strong>Autocontrol</strong>
+            <br>Regular las emociones.
+          </div>
+
+          <div class="paso">
+            <span>💬</span>
+            <strong>Comunicación</strong>
+            <br>Escuchar y explicar.
+          </div>
+
+          <div class="paso">
+            <span>🤝</span>
+            <strong>Confianza</strong>
+            <br>Servir con humanidad.
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<footer>
+  Policía Nacional de Colombia · Liderazgo ético, humano y responsable
+</footer>
+
+<script>
+function mostrar(id) {
+  const elemento = document.getElementById(id);
+
+  if (elemento.style.display === "block") {
+    elemento.style.display = "none";
+  } else {
+    elemento.style.display = "block";
+  }
+}
+</script>
+
+</body>
+</html>
